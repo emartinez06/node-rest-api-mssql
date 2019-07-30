@@ -1,0 +1,11 @@
+#Folder dependencies
+node_modules/
+bower_components/
+
+#IDE Files
+.vs/
+.vscode/
+
+#Other files
+*.log
+
