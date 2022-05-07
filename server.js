@@ -1,26 +1,27 @@
-//Initiallising node modules
-var express = require("express");
-var bodyParser = require("body-parser");
-var app = express(); 
-let usersRoute = require('./routes/users');
+// Imports
+const express =require("express");
+const cors =require('cors');
+const helmet =require('helmet');
+const http =require('http');
 
-// Body Parser Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json()); 
+// Route imports
+const usersRoute =require('./routes/users');
 
-//CORS Middleware
-app.use(function (req, res, next) {
-    //Enabling CORS 
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, contentType,Content-Type, Accept, Authorization");
-    next();
-});
+const app = express();
+const port = process.env.PORT || 3000;
 
+// Middlewares
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(helmet.hidePoweredBy());
+app.use(cors());
+
+// API routes
 app.use('/api/users', usersRoute);
 
-//Setting up server
- var server = app.listen(process.env.PORT || 3000, function () {
-    var port = server.address().port;
-    console.log("App now running on port", port);
- });
+// Server
+const server = http.createServer(app);
+server.listen(port);
+
+// Output of server
+console.log(`Server running at port ${port}`);
